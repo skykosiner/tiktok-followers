@@ -1,5 +1,13 @@
-import { NewAccount } from "./createAccount/newAccount";
+import { Account, NewAccount } from "./createAccount/newAccount";
 
-const account = new NewAccount("skylikesdick")
+const accountClass = new NewAccount("belisaslag")
 
-account.CreateAccount()
+async function account(): Promise<Account> {
+    return await accountClass.CreateAccount();
+}
+
+account().then((info) => {
+    if (info.error) {
+        console.error(info.errorMessage)
+    };
+});
