@@ -1,13 +1,14 @@
 import { Account, NewAccount } from "./createAccount/newAccount";
+import { names } from "./names";
 
-const accountClass = new NewAccount("belisaslag")
+names.map((name: string) => {
+    const accountClass = new NewAccount(name);
 
-async function account(): Promise<Account> {
-    return await accountClass.CreateAccount();
-}
-
-account().then((info) => {
-    if (info.error) {
-        console.error(info.errorMessage)
+    async function account(): Promise<Account> {
+        return await accountClass.CreateAccount();
     };
+
+    account().then((info) => {
+        info.error && console.error(info.errorMessage);
+    });
 });
