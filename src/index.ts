@@ -1,7 +1,7 @@
 import { Account, NewAccount } from "./createAccount/newAccount";
 import { names } from "./names";
 
-names.map((name: string) => {
+names.forEach((name: string) => {
     const accountClass = new NewAccount(name);
 
     async function account(): Promise<Account> {
@@ -9,6 +9,6 @@ names.map((name: string) => {
     };
 
     account().then((info) => {
-        info.error && console.error(info.errorMessage);
+        if (info.error) console.error(info.errorMessage);
     });
 });

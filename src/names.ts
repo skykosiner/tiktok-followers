@@ -1,7 +1,7 @@
 export const names: string[] = [
     "belisaslag",
     "skylikesdick",
-    "cockisyummy",
+    /* "cockisyummy",
     "cumissalty",
     "zoologygrow",
     "asapcorners",
@@ -998,5 +998,5 @@ export const names: string[] = [
     "hugecockistastyinsky",
     "yummycum",
     "hmmmdick",
-    "penisistasty",
+    "penisistasty",*/
 ];
