@@ -1,4 +1,6 @@
 import puppeteer from "puppeteer";
+import { Login } from "src/followAccount/followAccount";
+import { names } from "../names";
 
 export interface Account {
     email: string;
@@ -9,12 +11,36 @@ export interface Account {
 }
 
 export class NewAccount {
-    public email: string = `${this.username}@mailsac.com`;
-    public password: string = "BelIsASlag69420!";
-    public emailWebsite: string = `https://mailsac.com/inbox/${this.username}@mailsac.com`;
+    private username: string = "";
+    private email: string = `${this.username}@mailsac.com`;
+    private password: string = "BelIsASlag69420!";
+    private emailWebsite: string = `https://mailsac.com/inbox/${this.username}@mailsac.com`;
 
-    constructor(public username: string) {
-    }
+    constructor() {
+        names.forEach((name: string) => {
+            let account: Account = {
+                username: "",
+                email: "",
+                password: "",
+            };
+
+            this.CreateAccount(name).then((info: Account) => {
+                if (info.error) {
+                    throw new Error(info.errorMessage);
+                }
+
+                account = info;
+
+                return info
+            });
+
+            Login({
+                username: account.username,
+                email: account.email,
+                password: account.password
+            });
+        });
+    };
 
     private async StartAccountCreation(): Promise<void> {
         const browser = await puppeteer.launch({ headless: false });
@@ -43,9 +69,7 @@ export class NewAccount {
 
         await page.screenshot({ path: './tiktok.png' });
 
-        setTimeout(async () => {
-            await browser.close();
-        }, 10000)
+        setTimeout(async () => await browser.close(), 10000)
     }
 
     private async ConfirmEmail(): Promise<boolean> {
@@ -54,12 +78,14 @@ export class NewAccount {
         await page.goto(this.emailWebsite);
         await page.screenshot({ path: './output.png' });
 
+
         await browser.close();
 
         return true;
     };
 
-    public async CreateAccount(): Promise<Account> {
+    private async CreateAccount(username: string): Promise<Account> {
+        this.username = username;
         // Start sign up process
         if (this.email === "") {
             return {
