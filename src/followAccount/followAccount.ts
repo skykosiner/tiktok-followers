@@ -1,8 +1,10 @@
 import puppeteer, { Page } from "puppeteer";
-import { Info } from "src/accountInfo";
-import { Account } from "src/createAccount/newAccount";
+import { Info } from "../accountInfo";
+import { Account } from "../createAccount/newAccount";
 
 export async function Login(account: Account): Promise<void> {
+    console.log("Account", account);
+
     const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
 
@@ -13,7 +15,7 @@ export async function Login(account: Account): Promise<void> {
 
     await page.click(".tiktok-cjigsp-Button-StyledButton");
 
-    await Follow(page);
+    setTimeout(async () => await Follow(page), 10000);
 
     setTimeout(async () => await browser.close(), 10000);
 };

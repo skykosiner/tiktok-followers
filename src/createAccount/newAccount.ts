@@ -1,6 +1,4 @@
 import puppeteer from "puppeteer";
-import { Login } from "src/followAccount/followAccount";
-import { names } from "../names";
 
 export interface Account {
     email: string;
@@ -11,35 +9,12 @@ export interface Account {
 }
 
 export class NewAccount {
-    private username: string = "";
-    private email: string = `${this.username}@mailsac.com`;
+    private email: string = "";
     private password: string = "BelIsASlag69420!";
     private emailWebsite: string = `https://mailsac.com/inbox/${this.username}@mailsac.com`;
 
-    constructor() {
-        names.forEach((name: string) => {
-            let account: Account = {
-                username: "",
-                email: "",
-                password: "",
-            };
-
-            this.CreateAccount(name).then((info: Account) => {
-                if (info.error) {
-                    throw new Error(info.errorMessage);
-                }
-
-                account = info;
-
-                return info
-            });
-
-            Login({
-                username: account.username,
-                email: account.email,
-                password: account.password
-            });
-        });
+    constructor(private username: string) {
+        this.email = `${this.username}@mailsac.com`;
     };
 
     private async StartAccountCreation(): Promise<void> {
@@ -84,8 +59,7 @@ export class NewAccount {
         return true;
     };
 
-    private async CreateAccount(username: string): Promise<Account> {
-        this.username = username;
+    public async CreateAccount(): Promise<Account> {
         // Start sign up process
         if (this.email === "") {
             return {
