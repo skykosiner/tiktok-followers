@@ -51,8 +51,7 @@ export class NewAccount {
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
         await page.goto(this.emailWebsite);
-        await page.screenshot({ path: './output.png' });
-
+        await page.screenshot({ path: `./output-${this.username}.png` });
 
         await browser.close();
 
