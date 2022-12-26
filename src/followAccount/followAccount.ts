@@ -17,7 +17,7 @@ export async function Login(account: Account): Promise<void> {
 
     setTimeout(async () => await Follow(page), 10000);
 
-    setTimeout(async () => await browser.close(), 10000);
+    setTimeout(async () => await browser.close(), 20000);
 };
 
 async function Follow(page: Page): Promise<boolean> {

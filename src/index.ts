@@ -27,5 +27,5 @@ names.map((name: string) => {
             email: accountInfo.email,
             password: accountInfo.password
         });
-    }, 10000)
+    }, 10000);
 });
