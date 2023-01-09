@@ -15,7 +15,7 @@ export class NewAccount {
 
     constructor(private username: string) {
         this.email = `${this.username}@mailsac.com`;
-    };
+    }
 
     private async StartAccountCreation(): Promise<void> {
         const browser = await puppeteer.launch({ headless: false });
@@ -29,16 +29,26 @@ export class NewAccount {
         // Enter password
         await page.type(".tiktok-wv3bkt-InputContainer", `${this.password}`);
 
-        const xPaths: string[] = ['//*[@id="loginContainer"]/div[1]/form/div[3]/div[1]/div[1]', '//*[@id="loginContainer"]/div[1]/form/div[3]/div[1]/div[2]/div[1]', '//*[@id="loginContainer"]/div[1]/form/div[3]/div[2]/div[1]', '//*[@id="loginContainer"]/div[1]/form/div[3]/div[2]/div[2]/div[17]', '//*[@id="loginContainer"]/div[1]/form/div[3]/div[3]/div[1]', '//*[@id="loginContainer"]/div[1]/form/div[3]/div[3]/div[2]/div[23]'];
+        // const xPaths: string[] = ['//*[@id="loginContainer"]/div[1]/form/div[3]/div[1]/div[1]', '//*[@id="loginContainer"]/div[1]/form/div[3]/div[1]/div[2]/div[1]', '//*[@id="loginContainer"]/div[1]/form/div[3]/div[2]/div[1]', '//*[@id="loginContainer"]/div[1]/form/div[3]/div[2]/div[2]/div[17]', '//*[@id="loginContainer"]/div[1]/form/div[3]/div[3]/div[1]', '//*[@id="loginContainer"]/div[1]/form/div[3]/div[3]/div[2]/div[23]'];
 
-        for (let i = 0; i < xPaths.length; i++) {
-            const button = await page.$x(xPaths[i]);
+        // List of xPaths
+        const xPath = new Map<string, string>([
+            ['selectFromMonths', '//*[@id="loginContainer"]/div[1]/form/div[2]/div[1]/div[1]'],
+            ['selectMonths', '//*[@id="loginContainer"]/div[1]/form/div[2]/div[1]/div[2]/div[1]'],
+            ['selectFromDays', '//*[@id="loginContainer"]/div[1]/form/div[2]/div[2]/div[1]'],
+            ['selectDay', '//*[@id="loginContainer"]/div[1]/form/div[2]/div[2]/div[2]/div[17]'],
+            ['selectFromYears', '//*[@id="loginContainer"]/div[1]/form/div[2]/div[3]/div[1]'],
+            ['selectYear', '//*[@id="loginContainer"]/div[1]/form/div[2]/div[3]/div[2]/div[24]'],
+        ]);
+
+        for (const key of xPath.keys()) {
+            const button = await page.$x(xPath.get(key) as string);
             //@ts-ignore
             await button[0].click();
         };
 
         // Send login code
-        const loginCode = await page.$x('//*[@id="loginContainer"]/div[1]/form/div[8]/div/button');
+        const loginCode = await page.$x('//*[@id="loginContainer"]/div[1]/form/div[7]/div/button');
         //@ts-ignore
         await loginCode[0].click();
 
@@ -87,5 +97,5 @@ export class NewAccount {
             email: `${this.email}`,
             password: `${this.password}`,
         };
-    };
-};
+    }
+}
